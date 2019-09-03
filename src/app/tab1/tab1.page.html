@@ -1,0 +1,65 @@
+
+<ion-header  *ngIf="isUserLoggedIn" >
+    <ion-toolbar style="--background : #1C103C">
+        <ion-buttons slot="start" >
+            <ion-menu-button autoHide="false" style="color: #B4B6B5">
+            </ion-menu-button>
+          </ion-buttons>
+        
+        <ion-row>
+            <ion-col size="10">
+                <ion-searchbar  style="--background:white" (keyup)="getTopics($event)"  > </ion-searchbar>
+            </ion-col>
+            <ion-col size="1">
+                <ion-icon name="notifications" style="zoom:1.8; margin-top: 8px; color: #B4B6B5"  ></ion-icon>
+            </ion-col>
+          </ion-row>
+    </ion-toolbar>
+    </ion-header>
+  
+    <ion-menu contentId="content1" side="start"  style="--max-height:1200px;">
+        <ion-header>
+           
+          <ion-item   [routerLink]="['/profile-details', userInfo.phoneNumber]"> 
+            <ion-avatar slot="start">
+              <img src="{{profileimage}}" >
+            </ion-avatar>
+            <ion-label>
+              <h1>{{username}}</h1>
+              <h3>{{userInfo.phoneNumber}}</h3>
+
+            </ion-label>
+          </ion-item>
+        
+          </ion-header>
+      <ion-content>
+          <ion-list>
+            <ion-item >
+                <ion-label  style = "margin-right: 10px;" (click)= logout();>LogOut</ion-label> 
+                <ion-icon name="log-out" (click)= logout(); ></ion-icon>
+            </ion-item>
+           
+          </ion-list>
+        </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="content1" main></ion-router-outlet>
+
+    
+  
+
+
+    <ion-content   class="card-background-page" *ngIf="data">
+ 
+
+        <div *ngFor="let topic of topics"  >
+        
+          <ion-card    [routerLink]="['/viewjourney', topic.jid]">
+              <img src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg"/>
+              <div class="card-title">{{topic.purpose}}</div>
+            </ion-card>
+          
+        </div>
+        </ion-content> 
+
+          
+

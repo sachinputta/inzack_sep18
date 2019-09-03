@@ -1,0 +1,40 @@
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-input placeholder="Enter your purpose" [(ngModel)]='purpose'  required><ion-label>Journey Purpose:</ion-label></ion-input>
+  </ion-item>
+  <br>
+    <ion-item>
+      <ion-label>Journey Type</ion-label>
+      <ion-select placeholder="Select Type" [(ngModel)]='type' required>
+        <ion-select-option value="public">public</ion-select-option>
+        <ion-select-option value="private">private</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <br>
+    <ion-button color="primary" *ngIf="data" style="margin-left:90px;" (click)="createjourney()" [disabled]="data.isactive">create journey</ion-button> 
+
+
+   <br>
+    <br>
+    <br>
+
+    <!-- <ion-item>
+        <ion-input placeholder="Type message....." [(ngModel)]='uploadmessage'></ion-input>  <ion-icon name="camera"   (click)="uploadHandler()" ></ion-icon> <ion-icon name="videocam" (click)="getmedia()" style="margin-left:25px;" ></ion-icon>
+      </ion-item>
+      <br>
+      <ng-container *ngIf="progress | async as percent">
+
+          <progress [value]="percent" max="100"></progress>
+        
+        </ng-container> -->
+
+
+
+
+
+
+  
+</ion-content>
+
