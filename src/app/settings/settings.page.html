@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar style="--background : #1C103C" mode="ios">
+      <ion-item style="--background : #1C103C">
+          <ion-avatar slot="start">
+              <ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"style="zoom:1.8; margin-top: 5px; margin-left:5px; color: white" [routerLink]="['']"></ion-icon>
+          </ion-avatar>
+          <h3 style="margin-left:25%;color:white">Settings</h3>
+        </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    
+      <br>
+      <ion-card [routerLink]="['/editprofile', userInfo.phoneNumber]" style="height:20%;">
+    
+        <ion-item lines="none" >
+            <ion-avatar slot="end" style="width:90px;height:90px;">
+              <img src="{{profileimage}}">
+            </ion-avatar>
+            <ion-label>
+              <h1>{{username}}</h1>
+              <h2>{{userInfo.phoneNumber}}</h2>
+            </ion-label>
+          </ion-item>
+         
+   
+  </ion-card>
+  
+<br>
+<br>
+
+      <ion-list style="height:50%;">
+        <ion-item>
+            <ion-avatar slot="start">
+                <ion-icon name="information" style="zoom:1.8; margin-top: 5px; margin-left:5px; color: #1C103C" ></ion-icon>
+            </ion-avatar>
+            <ion-label>About</ion-label>
+            <ion-icon name="ios-arrow-forward" style="zoom:1.0; margin-top: 5px; margin-right:8px; color: #1C103C"></ion-icon>
+          </ion-item>
+          <ion-item>
+              <ion-avatar slot="start">
+                  <ion-icon name="help-buoy"  style="zoom:1.8; margin-top: 5px; margin-left:5px; color: #1C103C" ></ion-icon>
+              </ion-avatar>
+              <ion-label>Support</ion-label>
+              <ion-icon name="ios-arrow-forward" style="zoom:1.0; margin-top: 5px; margin-right:8px; color: #1C103C"></ion-icon>
+            </ion-item>
+            <ion-item>
+                <ion-avatar slot="start">
+                  <ion-icon ios="ios-people" md="md-people" style="zoom:1.8; margin-top: 5px; margin-left:5px; color: #1C103C" ></ion-icon>
+                </ion-avatar>
+                
+                <ion-label>Invite a friend</ion-label>
+                <ion-icon name="ios-arrow-forward" style="zoom:1.0; margin-top: 5px; margin-right:8px; color: #1C103C"></ion-icon>
+              </ion-item>
+        
+      </ion-list>
+      <ion-button shape="round" style="margin-left:35%; --background: #1C103C;" (click)= logout();>Log Out</ion-button>
+      
+</ion-content>
+
+

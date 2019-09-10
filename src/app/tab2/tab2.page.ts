@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 // import {Router } from '@angular/router';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 
@@ -33,7 +34,7 @@ export class Tab2Page implements OnInit {
 
 
   // tslint:disable-next-line: max-line-length
-  constructor(private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private plt: Platform, private loadingCtrl: LoadingController) {
+  constructor(private location: Location, private platform: Platform, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private loadingCtrl: LoadingController) {
  // this.getphonenumber();
  this.Fbref = firebase.storage().ref();
   }

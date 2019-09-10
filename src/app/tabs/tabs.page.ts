@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import {Router } from '@angular/router';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -40,9 +39,10 @@ profileimage: any;
 username: any;
   image: string; // base64
   storageRef: any;
+  userDoc1: any;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private plt: Platform, private loadingCtrl: LoadingController) {}
+  constructor(private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private loadingCtrl: LoadingController) {}
 
   ngOnInit() {
   }
@@ -58,6 +58,17 @@ username: any;
       this.isUserLoggedIn = true;
       ( window as any).AccountKitPlugin.getAccount( info => {
         this.userInfo = info;
+        this.userDoc1 = this.afs.doc<any>('journeys/userjourneys').get().subscribe((res: any) => {
+          this.check = res.exists;
+          if (this.check) {
+            console.log('exists');
+          } else {
+            this.afs.doc('journeys/userjourneys').set({
+            });
+          }
+
+        });
+
         this.userDoc = this.afs.doc<any>('journey_creation/' + this.userInfo.phoneNumber).get().subscribe((res: any) => {
           this.check = res.exists;
           if (this.check) {

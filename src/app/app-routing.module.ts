@@ -10,17 +10,20 @@ const routes: Routes = [
   // { path: 'viewjourney', loadChildren: './viewjourney/viewjourney.module#ViewjourneyPageModule' },
   { path: 'viewjourney',
     children: [
-      {path : ':journeyid', loadChildren: './viewjourney/viewjourney.module#ViewjourneyPageModule' }
+      {path : ':journeyid/:purpose', loadChildren: './viewjourney/viewjourney.module#ViewjourneyPageModule' }
     ]
   },
   // { path: 'chats', loadChildren: './chats/chats.module#ChatsPageModule' },
   { path: 'chats',
   children: [
-    {path : ':userid', loadChildren: './chats/chats.module#ChatsPageModule' }
+    {path : ':userid/:journeyid/:purposeid', loadChildren: './chats/chats.module#ChatsPageModule' }
   ]
 },
- // { path: 'profile-details', loadChildren: './profile-details/profile-details.module#ProfileDetailsPageModule' },
- { path: 'profile-details/:phone', loadChildren: './profile-details/profile-details.module#ProfileDetailsPageModule' },
+ // { path: 'profile-details/:phone', loadChildren: './profile-details/profile-details.module#ProfileDetailsPageModule' },
+  { path: 'chatroom/:chatdocument', loadChildren: './chatroom/chatroom.module#ChatroomPageModule' },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+  { path: 'editprofile/:phone', loadChildren: './editprofile/editprofile.module#EditprofilePageModule' },
+//  { path: 'tab4', loadChildren: './tab4/tab4.module#Tab4PageModule' },
 
 
 ];

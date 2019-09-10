@@ -22,7 +22,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ProfileDetailsPage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
-  constructor(public activeRoute: ActivatedRoute , private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, ) { }
+  constructor(public activeRoute: ActivatedRoute , private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer ) { }
   userDoc: any;
   data: any;
   isUserLoggedIn: any = false;

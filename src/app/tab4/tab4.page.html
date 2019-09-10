@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Chats</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data">
+  
+    <ion-item *ngFor="let chat of data.chats" [routerLink]="['/chatroom', chat.chatdocument]">
+        <ion-avatar slot="start">
+          <img src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{chat.name}}</h2>
+          <h3>{{chat.purpose}}</h3>
+        </ion-label>
+      </ion-item>
+
+</ion-content>

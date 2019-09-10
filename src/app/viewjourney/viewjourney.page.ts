@@ -47,6 +47,7 @@ username: any;
   comments = false;
   hide = true;
   journeyid: any;
+  purposeid: any;
 
   slideOptsOne = {
     initialSlide: 0,
@@ -61,9 +62,11 @@ username: any;
 
       } else {
 
-        console.log(ParamMap.get('journeyid'));
+       //  console.log(ParamMap.get('journeyid'));
         this.journeyid = ParamMap.get('journeyid');
+        this.purposeid = ParamMap.get('purpose');
         console.log(this.journeyid);
+        console.log(this.purposeid);
       }
     });
   }

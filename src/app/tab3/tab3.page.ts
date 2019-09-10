@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 // import {Router } from '@angular/router';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 
@@ -29,7 +30,7 @@ declare var window: any;
 export class Tab3Page implements OnInit {
 
   // tslint:disable-next-line: max-line-length
-  constructor(private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private plt: Platform, private loadingCtrl: LoadingController) {
+  constructor(private location: Location, private platform: Platform, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private loadingCtrl: LoadingController) {
     this.Fbref = firebase.storage().ref();
   }
 
@@ -103,17 +104,19 @@ createjourney() {
   this.jid = 'INZ' + this.userInfo.phoneNumber,
   this.userDoc.update(
     {
-      jouneys: firebase.firestore.FieldValue.arrayUnion(
+      journeys: firebase.firestore.FieldValue.arrayUnion(
        {
         jid: this.jid,
         number: this.userInfo.phoneNumber,
         purpose: this.purpose,
         type: this.type,
         timestamp: this.dateTime,
+        image: 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png',
        })
    });
     }
   });
+
 
 }
 

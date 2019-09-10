@@ -1,5 +1,6 @@
 import { TabsPage } from './../tabs/tabs.page';
-import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { from } from 'rxjs';
 import { HTTP } from '@ionic-native/http/ngx';
@@ -27,7 +28,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
   // topics: string[];
   // result: any = [];
   topics: Array<any> = [];
@@ -43,19 +44,22 @@ export class Tab1Page {
   task: AngularFireUploadTask;
   check: any;
   public downloadUrl: Observable<string>;
-
-  progress: any;  // Observable 0 to 100
+  progress: any;
 profileimage: any;
 username: any;
-  image: string; // base64
+  image: string;
   storageRef: any;
 
   names: any = true;
   // tslint:disable-next-line: max-line-length
-  constructor(public navCtrl: NavController, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private plt: Platform, private loadingCtrl: LoadingController ) {
+  constructor( private location: Location, private platform: Platform, public navCtrl: NavController, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private plt: Platform, private loadingCtrl: LoadingController ) {
   }
+
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
+    this.platform.backButton.subscribe(() => {
+      this.location.back();
+    });
     ( window as any).AccountKitPlugin.loginWithPhoneNumber({
       useAccessToken: true,
       defaultCountryCode: 'IN',
@@ -78,7 +82,7 @@ generateTopics() {
 this.afs.doc('journeys/userjourneys').valueChanges().subscribe((response: any) => {
   this.data = response;
   console.log(this.data);
-  this.result = this.data.jouneys;
+  this.result = this.data.journeys;
   this.result = this.result.filter(journey => {
     return(journey.type !== 'private');
   });
@@ -89,22 +93,6 @@ this.afs.doc('journeys/userjourneys').valueChanges().subscribe((response: any) =
 }
 
 
-// getTopics(ev: any) {
-
-//   const serVal = ev.target.value;
-
-//   // tslint:disable-next-line: triple-equals
-//   if (serVal && serVal.trim() != '') {
-//     // this.generateTopics()
-//     this.topics = this.result;
-//     this.topics = this.topics.filter((topic) => {
-//       return(topic.toLowerCase().indexOf(serVal.toLowerCase()) > -1);
-//     });
-//   } else if (!serVal) {
-//     this.generateTopics();
-//     return(this.topics);
-//   }
-// }
 
 getTopics(ev: any) {
 
@@ -125,14 +113,15 @@ getTopics(ev: any) {
 
 
 
-logout() {
-  (window as any ).AccountKitPlugin.logout();
-  setTimeout(() => {
-    this.isUserLoggedIn = false;
-    this.data = '';
-    this.navCtrl.navigateRoot('/profile');
-  }, 1000);
-}
+// logout() {
+//   (window as any ).AccountKitPlugin.logout();
+//   setTimeout(() => {
+//     this.isUserLoggedIn = false;
+//     this.data = '';
+//     navigator['app'].exitApp();
+//    // this.navCtrl.navigateRoot('/profile');
+//   }, 1000);
+// }
 
 getuser() {
   let user;

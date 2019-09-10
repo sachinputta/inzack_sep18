@@ -1,6 +1,7 @@
 
    <ion-content padding>
-    <h1 *ngIf="!isUserLoggedIn" style = "text-align: center; margin-top: 140px;font-size: 35px;color: #1C103C"> I N Z A C K </h1>
+      <img *ngIf="!isUserLoggedIn" src="assets/images/icon.png" style="margin-left:38%;width:80px;height:80px;margin-top: 100px;">
+    <h1 *ngIf="!isUserLoggedIn" style = "text-align: center; margin-top: 2px;font-size: 35px;color: #1C103C"> I N Z A C K </h1>
     <h3  *ngIf="!isUserLoggedIn" style = "text-align: center; margin-top: 5px;font-size: 15px; color: #88807C; " >Everyone is on their own journey. </h3>
   
   
@@ -8,20 +9,26 @@
 
           <ion-tab-bar slot="bottom" >
             <ion-tab-button tab="tab1" style="background-color: #1C103C">
-              <ion-icon name="home" style="color: #B4B6B5"></ion-icon>
+              <ion-icon name="home" style="color: white"></ion-icon>
               <ion-label>Home</ion-label>
             </ion-tab-button>
         
             <ion-tab-button tab="tab2" style="background-color: #1C103C" >
-              <ion-icon name="person" style="color: #B4B6B5"></ion-icon>
+              <ion-icon name="person" style="color: white"></ion-icon>
               <ion-label >My journey</ion-label>
             </ion-tab-button>
         
             <ion-tab-button tab="tab3" style="background-color: #1C103C">
-              <ion-icon name="add-circle" style="color: #B4B6B5"></ion-icon>
+              <ion-icon name="add-circle" style="color: white"></ion-icon>
               <ion-label>Create Journey</ion-label>
             </ion-tab-button>
+            <ion-tab-button tab="tab4" style="background-color: #1C103C">
+              <ion-icon  name="chatbubbles" style="color: white"></ion-icon>
+              <ion-label>Chats</ion-label>
+            </ion-tab-button>
+
           </ion-tab-bar>
+          
         
         </ion-tabs>
 
