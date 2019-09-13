@@ -71,6 +71,44 @@
            </div>
 
         </ion-content> 
+      
+
+<ion-footer >
+  <ion-slides [options]="slideOptsOne" #slides   *ngIf="advices" >
+   <ion-slide *ngFor="let advice of advices">
+<ion-card  style="width: 81%;border: 1px solid;box-shadow: none;border-radius: 10px;">
+
+ <ion-item lines="none"  >
+     <ion-avatar slot="start" style="width:50px;height:50px;" (click)="viewimage(advice.image)">
+       <img src="{{advice.image}}" >
+     </ion-avatar>
+     <ion-label>
+       <p style="white-space: normal;"><span style="font-weight: bolder">Purpose:</span> {{advice.purpose}} </p>
+       <p style="white-space: normal;"><span style="font-weight: bolder">Issue:</span> {{advice.issue}} </p>
+     </ion-label>
+    
+   </ion-item>
+   <ion-item  style=" margin-left: 10%; margin-bottom: 5px;width: 80%;border: 1px solid;box-shadow: none;border-radius: 10px;">
+     <ion-input type="text" placeholder="my advice"> </ion-input><ion-icon name="send"></ion-icon>
+   </ion-item>
+   
+ 
+   
+ 
+</ion-card>
+</ion-slide>
+
+
+</ion-slides> 
+<div style="position: absolute;top: 40%;left: 2px;font-size: 35px;z-index:1;" (click)= "prev()"   >
+<ion-icon name="arrow-back"  mode="ios" ></ion-icon>
+</div>
+<div style="position: absolute;top: 40%;right: 5px;font-size: 35px;z-index: 1;" (click)= "next()" >
+<ion-icon name="arrow-forward" mode="ios" ></ion-icon>
+</div>
+
+
+</ion-footer>
 
           
 

@@ -1,6 +1,6 @@
 import { TabsPage } from './../tabs/tabs.page';
 import { Location } from '@angular/common';
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { from } from 'rxjs';
 import { HTTP } from '@ionic-native/http/ngx';
@@ -20,6 +20,8 @@ import { AngularFirestoreModule, AngularFirestore } from 'angularfire2/firestore
 import { File } from '@ionic-native/file/ngx';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
+import { IonSlides } from '@ionic/angular';
+import { PhotoViewer, PhotoViewerOptions } from '@ionic-native/photo-viewer/ngx';
 
 
 
@@ -49,12 +51,52 @@ profileimage: any;
 username: any;
   image: string;
   storageRef: any;
-
   names: any = true;
+  doc: any;
+  images: any = [];
+  swiper: any;
+  purposeid: any;
+  advices: any = [];
+
+@ViewChild('slides', { static: false }) slides: IonSlides;
   // tslint:disable-next-line: max-line-length
-  constructor( private location: Location, private platform: Platform, public navCtrl: NavController, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private plt: Platform, private loadingCtrl: LoadingController ) {
+  constructor(private photoViewer: PhotoViewer,
+              private location: Location,
+              private platform: Platform,
+              public navCtrl: NavController,
+              private fdb: AngularFireDatabase,
+              public storage: AngularFireStorage,
+              private camera: Camera,
+              private afs: AngularFirestore,
+              private file: File,
+              public sanitizer: DomSanitizer,
+              private http: HttpClient,
+              private nativeHttp: HTTP,
+              private plt: Platform,
+              private loadingCtrl: LoadingController ) {
+    const userDoc = this.afs.firestore.collection('advices');
+    userDoc.get().then((querySnapshot) => {
+   querySnapshot.forEach((doc) => {
+        // tslint:disable-next-line: variable-name
+        const doc_data = doc.data();
+        let i;
+        // tslint:disable-next-line: forin
+        for (i in doc_data.advices) {
+            this.advices.push(doc_data.advices[i]);
+          }
+        console.log('advices =>', this.advices);
+   });
+});
   }
 
+
+  slideOptsOne = {
+    initialSlide: 0,
+    slidesPerView: 1,
+    autoplay: false,
+    pager: true,
+    autoHeight: true,
+   };
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit() {
     this.platform.backButton.subscribe(() => {
@@ -113,15 +155,7 @@ getTopics(ev: any) {
 
 
 
-// logout() {
-//   (window as any ).AccountKitPlugin.logout();
-//   setTimeout(() => {
-//     this.isUserLoggedIn = false;
-//     this.data = '';
-//     navigator['app'].exitApp();
-//    // this.navCtrl.navigateRoot('/profile');
-//   }, 1000);
-// }
+
 
 getuser() {
   let user;
@@ -151,7 +185,20 @@ update() {
 }
 
 
+next() {
+  this.slides.slideNext();
+}
 
+prev() {
+  this.slides.slidePrev();
+}
 
+viewimage(image) {
+  const option: PhotoViewerOptions = {
+    share: false
+  };
+  this.photoViewer.show(image);
+  // this.photoViewer.show(image, 'our title here', option );
+ }
 
 }

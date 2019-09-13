@@ -17,6 +17,7 @@ import { File } from '@ionic-native/file/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import {AngularFireAuthModule} from '@angular/fire/auth';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 
 const config = {
@@ -45,6 +46,7 @@ const config = {
     HTTP,
     Camera,
     File,
+    PhotoViewer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

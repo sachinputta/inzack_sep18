@@ -1,0 +1,75 @@
+<div >
+  <ion-card >
+    <ion-card-content>
+      <img src= "{{ t.src }}" style ="width:100%;height:250px" *ngIf="t.type=='image'" />
+      <video width="auto" height="240" controls *ngIf="t.type=='video'">
+          <source [src]='sanitizer.bypassSecurityTrustResourceUrl(t.src)'  type="video/mp4">
+      </video>
+      <br>
+  
+      <h2 *ngIf="t.message"  style="font-size: 20px;">{{ t.message }} </h2>
+      <br>
+    
+    </ion-card-content>
+     <ion-fab horizontal="end"  >
+      <ion-fab-button size="small" (click)="help()" [disabled]="disableButton" >
+        <ion-icon name="help"></ion-icon>
+      </ion-fab-button>
+    </ion-fab> 
+
+    
+    <br>
+    <br>
+    <ion-item lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; " *ngIf="t.comments.length > 0"> 
+      <ion-avatar slot="start"  >
+          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        </ion-avatar>
+      <ion-col size="10">
+      <p style="font-size: 15px" >
+        
+      <span *ngIf="t.comments[t.comments.length-1].msg">{{t.comments[t.comments.length-1].msg}} </span>
+    
+       </p>
+      </ion-col >
+       <ion-col size="1" >
+          <ion-icon name="heart" style="zoom:1.5;color:#F00F87"></ion-icon>
+          <br>
+          <ion-badge color="secondary" style="margin-right: 3px;">26</ion-badge>
+      </ion-col>
+
+    
+     
+    </ion-item>
+    <br>
+      <button (click)="showcomments()" *ngIf="hide"> More</button>
+      <br>
+
+      <div *ngIf="comments">
+        <ion-item *ngFor="let comment of t.comments" lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; "> 
+            <ion-avatar slot="start"  >
+                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+              </ion-avatar>
+            <ion-col size="10">
+            <p style="font-size: 15px">
+            <span *ngIf="t.comments[t.comments.length-1].msg">{{comment.msg}} </span>
+             </p>
+            </ion-col >
+             <ion-col size="1" >
+                <ion-icon name="heart" style="zoom:1.5;color:#F00F87"></ion-icon>
+                <br>
+                <ion-badge color="secondary" style="margin-right: 3px;">26</ion-badge>
+            </ion-col>
+           
+          </ion-item>
+
+          <br>
+          <br>
+          <button (click)="hidecomments()"> Hide</button>
+
+      </div>
+      <br>
+     
+  </ion-card>
+
+
+</div>

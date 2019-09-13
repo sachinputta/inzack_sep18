@@ -13,7 +13,7 @@
       
 </ion-header>
 
-<ion-content>
+<!-- <ion-content> -->
   <!-- <br>
       <div *ngFor='let img of data' >
           <h5 text-center > {{img}} </h5>
@@ -81,13 +81,13 @@
       </div> -->
 
       
-      <br>
+      <!-- <br>
       <div *ngFor='let img of data' >
           <h5 text-center > {{img}} </h5>
 <hr style= "width: 80%; height: 3px; background-color:red; color:red;border: 0 none;margin: 5px auto; ">
        
 
-          <ion-slides [options]="slideOptsOne" >
+          <ion-slides  [options]="slideOptsOne" >
               <ion-slide *ngFor="let t of date_wise[img]">
                 <ion-card >
                   <ion-card-content>
@@ -98,11 +98,11 @@
                     <br>
                 
                     <h2 *ngIf="t.message"  style="font-size: 20px;">{{ t.message }} </h2>
-                    <br>
+                    <br> -->
                     <!-- <ion-icon name="ios-chatbubbles" style="zoom:2.0;color: grey;margin-left:10px;"  [routerLink]="['/chats']"></ion-icon> -->
                    
         
-                  </ion-card-content>
+                  <!-- </ion-card-content> -->
 
                   <!-- <ion-item>
                     <ion-textarea clearOnEdit="true" placeholder= 'comments'></ion-textarea>
@@ -110,7 +110,7 @@
                   </ion-item>  -->
                   
                   
-                  <br>
+                  <!-- <br>
                   <ion-item lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; " *ngIf="t.comments.length > 0"> 
                     <ion-avatar slot="start"  >
                         <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
@@ -173,7 +173,33 @@
             </div>
 
    
+</ion-content> -->
+
+
+<ion-content>
+
+
+        <br>
+        <div *ngFor='let img of data' >
+            <h5 text-center > {{img}} </h5>
+    <hr style= "width: 80%; height: 3px; background-color:red; color:red;border: 0 none;margin: 5px auto; ">
+         
+    
+            <ion-slides  [options]="slideOptsOne" >
+                <ion-slide *ngFor="let t of date_wise[img]">
+              
+                  <app-datewisejourney [t]=t></app-datewisejourney>
+              
+                </ion-slide>
+       
+                
+               </ion-slides>
+              
+               <br>
+              
+              </div>
+
+
+
+        
 </ion-content>
-
-
-

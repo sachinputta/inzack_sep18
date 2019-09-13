@@ -59,12 +59,27 @@ username: any;
   storageRef: any;
   comments = false;
   hide = true;
+  public dateTime: any;
+  getsec: any;
 
+  // slideOptsOne = {
+  //   initialSlide: 0,
+  //   slidesPerView: 1,
+  //   autoplay: false
+  //  };
   slideOptsOne = {
     initialSlide: 0,
     slidesPerView: 1,
-    autoplay: false
-   };
+    autoplay: false,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      renderBullet(index, className) {
+        return '<span class="' + className + '">' + (index + 1) + '</span>';
+      },
+    }
+  };
+
    date: any;
    public Fbref: any;
    task1: any;
@@ -72,7 +87,6 @@ username: any;
    newprog: any;
    purpose: any;
    type: any;
-   public dateTime: any;
    jid: any;
    userDocActive: any;
    datajourney: any;
@@ -121,6 +135,8 @@ createUploadTask(file: string): void {
   const nowDate = new Date();
   const imagedate = nowDate.getDate() + '/' + (nowDate.getMonth() + 1) + '/' + nowDate.getFullYear()  ;
   console.log(imagedate);
+  this.dateTime = new Date();
+  this.getsec = this.dateTime.getTime();
   this.progress = this.task.percentageChanges();
   this.task.percentageChanges().subscribe(res => {
       if ( res === 100) {
@@ -137,6 +153,7 @@ createUploadTask(file: string): void {
            message: this.uploadmessage,
            type: 'image',
            date: imagedate,
+           postid: this.getsec,
            userid: this.userInfo.phoneNumber,
           comments: []
           })
@@ -264,6 +281,8 @@ getmedia() {
      const nowDate = new Date();
      const imagedate = nowDate.getDate() + '/' + (nowDate.getMonth() + 1) + '/' + nowDate.getFullYear()  ;
      console.log(imagedate);
+     this.dateTime = new Date();
+     this.getsec = this.dateTime.getTime();
      this.afs.doc('userJourneys/' + 'INZ' + this.userInfo.phoneNumber).update({
        multimedia: firebase.firestore.FieldValue.arrayUnion(
          {
@@ -271,6 +290,7 @@ getmedia() {
           type: 'video',
           message: this.uploadmessage,
           date: imagedate,
+          postid: this.getsec,
           userid: this.userInfo.phoneNumber,
           comments: []
          })

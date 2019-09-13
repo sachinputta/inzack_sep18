@@ -62,6 +62,7 @@ username: any;
   userDocActive: any;
   datajourney: any;
   uploadmessage = '';
+  userDoc1: any;
 
   filePath1 = `${ new Date().getTime() }.mp4`;
 
@@ -113,6 +114,19 @@ createjourney() {
         timestamp: this.dateTime,
         image: 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png',
        })
+   });
+  this.afs.doc('userJourneys/' + this.jid ).set({
+    multimedia: [ ]
+   });
+  this.userDoc1 = this.afs.doc<any>('userJourneys/' + this.jid);
+  this.userDoc1.update(
+    {
+        jid: this.jid,
+        number: this.userInfo.phoneNumber,
+        purpose: this.purpose,
+        type: this.type,
+        timestamp: this.dateTime,
+        image: 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png',
    });
     }
   });
