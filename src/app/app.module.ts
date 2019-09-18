@@ -18,17 +18,18 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 
 const config = {
   // your firebase web config
-  apiKey: 'AIzaSyDmWQtluVuUU7WRFnYAIxn87CGRHBygHgc',
-    authDomain: 'fir-storage-ionic-4bbb2.firebaseapp.com',
-    databaseURL: 'https://fir-storage-ionic-4bbb2.firebaseio.com',
-    projectId: 'fir-storage-ionic-4bbb2',
-    storageBucket: 'fir-storage-ionic-4bbb2.appspot.com',
-    messagingSenderId: '368773082934',
-    appId: '1:368773082934:web:82e465f21190c58d'
+  apiKey: 'AIzaSyDSJvgjHDkZ91MeNjbmdGR86bPYno8PXwU',
+    authDomain: 'upload-ec2d4.firebaseapp.com',
+    databaseURL: 'https://upload-ec2d4.firebaseio.com',
+    projectId: 'upload-ec2d4',
+    storageBucket: 'upload-ec2d4.appspot.com',
+    messagingSenderId: '258152237114',
+    appId: '1:258152237114:web:044a7974b5ba9813'
  };
 
 
@@ -47,6 +48,7 @@ const config = {
     Camera,
     File,
     PhotoViewer,
+    VideoPlayer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

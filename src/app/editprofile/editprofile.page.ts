@@ -154,7 +154,7 @@ createUploadTask(file: string): void {
       if ( res === 100) {
         setTimeout(() => {
           // tslint:disable-next-line: max-line-length
-          this.imgsrc = 'https://firebasestorage.googleapis.com/v0/b/fir-storage-ionic-4bbb2.appspot.com/o/'  + this.filePath +  '?alt=media&';
+          this.imgsrc = 'https://firebasestorage.googleapis.com/v0/b/upload-ec2d4.appspot.com/o/'  + this.filePath +  '?alt=media&';
          // const userphonenumber = this.activeRoute.snapshot.paramMap.get('phone');
           this.userDoc = this.afs.doc<any>('Profile Details/' + this.userphonenumber);
           this.userDoc.update(
@@ -166,7 +166,7 @@ createUploadTask(file: string): void {
         }, 8000);
          }
     });
-  console.log('https://firebasestorage.googleapis.com/v0/b/fir-storage-ionic-4bbb2.appspot.com/o/'  + this.filePath +  '?alt=media&');
+  console.log('https://firebasestorage.googleapis.com/v0/b/upload-ec2d4.appspot.com/o/'  + this.filePath +  '?alt=media&');
 
 
 }

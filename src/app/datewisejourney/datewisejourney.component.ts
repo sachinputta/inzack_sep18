@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 // import {Router } from '@angular/router';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
@@ -15,10 +15,12 @@ import { File } from '@ionic-native/file/ngx';
 import { DomSanitizer } from '@angular/platform-browser';
 import { from } from 'rxjs';
 import { HTTP } from '@ionic-native/http/ngx';
-import { Platform, LoadingController } from '@ionic/angular';
+import { Platform, LoadingController, IonSlides } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
+import { PhotoViewer, PhotoViewerOptions } from '@ionic-native/photo-viewer/ngx';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 
 
@@ -31,14 +33,6 @@ declare var window: any;
   styleUrls: ['./datewisejourney.component.scss'],
 })
 export class DatewisejourneyComponent implements OnInit {
-
-
-@Input() t: any;
-  // tslint:disable-next-line: max-line-length
-  constructor(public alertController: AlertController, private location: Location, private platform: Platform, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private loadingCtrl: LoadingController) {
- // this.getphonenumber();
- this.Fbref = firebase.storage().ref();
-  }
   activeRoute: any;
   userDoc: any;
   data: any;
@@ -50,30 +44,33 @@ export class DatewisejourneyComponent implements OnInit {
   imgsrc: any;
   task: AngularFireUploadTask;
 check: any;
+Segments = '1';
 
   public downloadUrl: Observable<string>;
 
-  progress: any;  // Observable 0 to 100
+  progress: any;
 profileimage: any;
 username: any;
-  image: string; // base64
+  image: string;
   storageRef: any;
   comments = false;
+  advices = false;
   hide = true;
   userprofileimage: any;
+  page = '0';
 
-  // slideOptsOne = {
-  //   initialSlide: 0,
-  //   slidesPerView: 1,
-  //   autoplay: false,
-  //   pagination: {
-  //     el: '.swiper-pagination',
-  //     clickable: true,
-  //     renderBullet(index, className) {
-  //       return '<span class="' + className + '">' + (index + 1) + '</span>';
-  //     },
-  //   }
-  // };
+  slideOptsOne = {
+    initialSlide: 0,
+    slidesPerView: 1,
+    autoplay: false,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      renderBullet(index, className) {
+        return '<span class="' + className + '">' + (index + 1) + '</span>';
+      },
+    }
+  };
   jrnydata: any;
   disableButton;
    date: any;
@@ -88,6 +85,7 @@ username: any;
    userDocActive: any;
    datajourney: any;
    uploadmessage = '';
+   journeyid: any;
    filePath1 = `${ new Date().getTime() }.mp4`;
  public options: CameraOptions = {
    sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
@@ -95,29 +93,52 @@ username: any;
    mediaType: this.camera.MediaType.VIDEO
  };
 
+
+@Input() t: any;
+@ViewChild('slider', { static: false }) slider: IonSlides;
+  // tslint:disable-next-line: max-line-length
+  constructor(private videoPlayer: VideoPlayer,
+              private photoViewer: PhotoViewer,
+              public alertController: AlertController,
+              private location: Location,
+              private platform: Platform,
+              private fdb: AngularFireDatabase,
+              public storage: AngularFireStorage,
+              private camera: Camera,
+              private afs: AngularFirestore,
+              private file: File,
+              public sanitizer: DomSanitizer,
+              private http: HttpClient,
+              private nativeHttp: HTTP,
+              private loadingCtrl: LoadingController) {
+ // this.getphonenumber();
+ this.Fbref = firebase.storage().ref();
+  }
+
+
   ngOnInit() {
-    this.sample();
-    // ( window as any).AccountKitPlugin.loginWithPhoneNumber({
-    //   useAccessToken: true,
-    //   defaultCountryCode: 'IN',
-    //   facebookNotificationsEnabled: true,
-    // }, data => {
-    //  // this.isUserLoggedIn = true;
-    //   ( window as any).AccountKitPlugin.getAccount( info => {
-    //     this.userInfo = info;
-    //     console.log(this.userInfo.phoneNumber);
-    //     this.sample();
-    //    }, error => console.log(error));
-    // },
-    // error => console.log(error)
-    // );
+   // this.sample();
+    ( window as any).AccountKitPlugin.loginWithPhoneNumber({
+      useAccessToken: true,
+      defaultCountryCode: 'IN',
+      facebookNotificationsEnabled: true,
+    }, data => {
+     // this.isUserLoggedIn = true;
+      ( window as any).AccountKitPlugin.getAccount( info => {
+        this.userInfo = info;
+        console.log(this.userInfo.phoneNumber);
+        this.sample();
+       }, error => console.log(error));
+    },
+    error => console.log(error)
+    );
   }
 
 
 
 
   sample() {
-    this.afs.doc('userJourneys/' + 'INZ+919908280443').get().subscribe((response: any) => {
+    this.afs.doc('userJourneys/' + 'INZ' + this.userInfo.phoneNumber).get().subscribe((response: any) => {
       // this.data = response.data();
       // console.log(this.data);
 
@@ -126,7 +147,7 @@ username: any;
       if (this.check) {
         this.fun();
     } else {
-      this.afs.doc('userJourneys/' + 'INZ+919908280443' ).set({
+      this.afs.doc('userJourneys/' + 'INZ' + this.userInfo.phoneNumber ).set({
         multimedia: [ ]
        });
       this.fun();
@@ -139,9 +160,10 @@ username: any;
   fun() {
     // tslint:disable-next-line: variable-name
      this.date_wise = {};
-     this.afs.doc('userJourneys/' + 'INZ+919908280443').valueChanges().subscribe((res: any) => {
+     this.afs.doc('userJourneys/' + 'INZ' + this.userInfo.phoneNumber).valueChanges().subscribe((res: any) => {
       // console.log(res) ;
       this.jrnydata = res.purpose;
+      this.journeyid = res.jid;
       this.date_wise = {};
      // this.data = res.multimedia;
      // console.log(this.data);
@@ -160,7 +182,15 @@ username: any;
       this.data = Object.keys(this.date_wise);
       });
    }
-   showcomments() {
+   showadvices() {
+    this.advices = true;
+    this.hide = !this.hide;
+  }
+  hideadvices() {
+    this.advices = false;
+    this.hide = !this.hide;
+  }
+  showcomments() {
     this.comments = true;
     this.hide = !this.hide;
   }
@@ -170,20 +200,20 @@ username: any;
   }
 
 
-
-
   help() {
     this.disableButton = true;
-    this.afs.doc('Profile Details/+919908280443').get().subscribe((response: any) => {
-      this.data = response.data();
-      console.log(this.data.image);
+    this.afs.doc('Profile Details/' + this.userInfo.phoneNumber).valueChanges().subscribe((response: any) => {
+     // this.data = response.image;
+     // console.log(this.data.image);
       this.dateTime = new Date();
-      this.userprofileimage = this.data.image;
-      this.afs.doc('advices/' +  this.t.postid).set({
-        advices: [ ]
-       });
-      this.userDoc = this.afs.doc<any>('advices/' + this.t.postid);
-      this.userDoc.update(
+      this.userprofileimage = response.image;
+
+      this.afs.doc('advices/' + this.t.postid).get().subscribe((res: any) => {
+        console.log(res.exists);
+        this.check = res.exists;
+        if (this.check) {
+          this.userDoc = this.afs.doc<any>('advices/' + this.t.postid);
+          this.userDoc.update(
          {
         advices: firebase.firestore.FieldValue.arrayUnion(
           {
@@ -192,13 +222,25 @@ username: any;
            usernumber: this.t.userid,
            image: this.userprofileimage,
            Timestamp: this.dateTime,
-           purpose: this.jrnydata
+           purpose: this.jrnydata,
+           idjourney: this.journeyid,
           })
         });
+      } else {
+        this.afs.doc('advices/' +  this.t.postid).set({
+          advices: [ ]
+         });
+        }
+      });
+
 
     });
     }
 
+
+    viewimage(src) {
+      this.photoViewer.show(src);
+     }
 }
 
 

@@ -21,6 +21,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 
+
 declare var window: any;
 
 
@@ -34,7 +35,17 @@ export class Tab2Page implements OnInit {
 
 
   // tslint:disable-next-line: max-line-length
-  constructor(private location: Location, private platform: Platform, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private loadingCtrl: LoadingController) {
+  constructor(private location: Location,
+              private platform: Platform,
+              private fdb: AngularFireDatabase,
+              public storage: AngularFireStorage,
+              private camera: Camera,
+              private afs: AngularFirestore,
+              private file: File,
+              public sanitizer: DomSanitizer,
+              private http: HttpClient,
+              private nativeHttp: HTTP,
+              private loadingCtrl: LoadingController) {
  // this.getphonenumber();
  this.Fbref = firebase.storage().ref();
   }
@@ -142,7 +153,7 @@ createUploadTask(file: string): void {
       if ( res === 100) {
         setTimeout(() => {
           // tslint:disable-next-line: max-line-length
-          this.imgsrc = 'https://firebasestorage.googleapis.com/v0/b/fir-storage-ionic-4bbb2.appspot.com/o/'  + this.filePath +  '?alt=media&';
+          this.imgsrc = 'https://firebasestorage.googleapis.com/v0/b/upload-ec2d4.appspot.com/o/'  + this.filePath +  '?alt=media&';
           // this.userDoc = this.afs.doc<any>('Registered Number/' + this.userInfo.phoneNumber);
           this.userDoc = this.afs.doc<any>('userJourneys/' + 'INZ' + this.userInfo.phoneNumber);
           this.userDoc.update(
@@ -155,14 +166,15 @@ createUploadTask(file: string): void {
            date: imagedate,
            postid: this.getsec,
            userid: this.userInfo.phoneNumber,
-          comments: []
+          comments: [],
+          advices: []
           })
       });
 
         }, 6000);
          }
     });
-  console.log('https://firebasestorage.googleapis.com/v0/b/fir-storage-ionic-4bbb2.appspot.com/o/' + this.filePath + '?alt=media&');
+  console.log('https://firebasestorage.googleapis.com/v0/b/upload-ec2d4.appspot.com/o/' + this.filePath + '?alt=media&');
 
 
 }
@@ -275,7 +287,7 @@ getmedia() {
      // tslint:disable-next-line: max-line-length
      console.log(this.filePath1);
      // tslint:disable-next-line: max-line-length
-     this.videosrc = 'https://firebasestorage.googleapis.com/v0/b/fir-storage-ionic-4bbb2.appspot.com/o/'  + this.filePath1 +  '?alt=media&';
+     this.videosrc = 'https://firebasestorage.googleapis.com/v0/b/upload-ec2d4.appspot.com/o/'  + this.filePath1 +  '?alt=media&';
      console.log(this.videosrc);
      // console.log(this.phone);
      const nowDate = new Date();
@@ -292,7 +304,8 @@ getmedia() {
           date: imagedate,
           postid: this.getsec,
           userid: this.userInfo.phoneNumber,
-          comments: []
+          comments: [],
+          advices: []
          })
        } );
    }, 5000)

@@ -79,7 +79,7 @@
 <ion-card  style="width: 81%;border: 1px solid;box-shadow: none;border-radius: 10px;">
 
  <ion-item lines="none"  >
-     <ion-avatar slot="start" style="width:50px;height:50px;" (click)="viewimage(advice.image)">
+     <ion-avatar slot="start" style="width:50px;height:50px;" (click)="viewimage(advice.image)" >
        <img src="{{advice.image}}" >
      </ion-avatar>
      <ion-label>
@@ -89,7 +89,7 @@
     
    </ion-item>
    <ion-item  style=" margin-left: 10%; margin-bottom: 5px;width: 80%;border: 1px solid;box-shadow: none;border-radius: 10px;">
-     <ion-input type="text" placeholder="my advice"> </ion-input><ion-icon name="send"></ion-icon>
+     <ion-input type="text" placeholder="my advice" [(ngModel)]="textadvice"> </ion-input><ion-icon name="send" (click)="sendadvice(advice.idjourney,advice.postid)" ></ion-icon>
    </ion-item>
    
  

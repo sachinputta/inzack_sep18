@@ -1,11 +1,11 @@
 <div >
   <ion-card >
     <ion-card-content>
-      <img src= "{{ t.src }}" style ="width:100%;height:250px" *ngIf="t.type=='image'" />
-      <video width="auto" height="240" controls *ngIf="t.type=='video'">
-          <source [src]='sanitizer.bypassSecurityTrustResourceUrl(t.src)'  type="video/mp4">
-      </video>
-      <br>
+      <img src= "{{ t.src }}" style ="width:100%;height:250px" *ngIf="t.type=='image'" (click)="viewimage(t.src)"/>
+       <video width="auto" height="240" controls *ngIf="t.type=='video'" controlsList="nodownload" >
+          <source [src]='sanitizer.bypassSecurityTrustResourceUrl(t.src)'  type="video/mp4" >
+      </video> 
+    
   
       <h2 *ngIf="t.message"  style="font-size: 20px;">{{ t.message }} </h2>
       <br>
@@ -20,14 +20,62 @@
     
     <br>
     <br>
-    <ion-item lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; " *ngIf="t.comments.length > 0"> 
+    <br>
+    <br>
+    <!-- <ion-item lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; " *ngIf="t.comments.length > 0"> 
       <ion-avatar slot="start"  >
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
         </ion-avatar>
       <ion-col size="10">
       <p style="font-size: 15px" >
         
-      <span *ngIf="t.comments[t.comments.length-1].msg">{{t.comments[t.comments.length-1].msg}} </span>
+      <span *ngIf="t.comments[t.comments.length-1]">{{t.comments[t.comments.length-1]}} </span>
+    
+       </p>
+      </ion-col >
+       <ion-col size="1" >
+          <ion-icon name="heart" style="zoom:1.5;color:#F00F87"></ion-icon>
+          <br>
+          <ion-badge color="secondary" style="margin-right: 3px;">26</ion-badge>
+      </ion-col>
+
+    
+     
+    </ion-item> -->
+    
+
+
+     
+  </ion-card>
+
+
+</div>
+
+<br>
+
+      <ion-segment color='red'  [(ngModel)]="Segments" >
+    <ion-segment-button value="1" style="color: red"  >
+     Advices
+    </ion-segment-button>
+    <ion-segment-button (ionSelect)="Segments = 2" value="2" style="color: red" >
+        Comments
+      </ion-segment-button>
+
+
+  
+  </ion-segment>
+  <br>
+  <ion-grid [ngSwitch]="Segments">
+
+  <ion-grid *ngSwitchCase="1">
+  <ion-item  lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; " *ngIf="t.advices.length > 0"> 
+      <ion-avatar slot="start"  >
+          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        </ion-avatar>
+      <ion-col size="10">
+      <p style="font-size: 15px" >
+        
+      <span *ngIf="t.advices[t.advices.length-1]">{{t.advices[t.advices.length-1]}} </span>
     
        </p>
       </ion-col >
@@ -41,17 +89,45 @@
      
     </ion-item>
     <br>
-      <button (click)="showcomments()" *ngIf="hide"> More</button>
+      <button (click)="showadvices()" *ngIf="hide"> More</button>
       <br>
 
-      <div *ngIf="comments">
-        <ion-item *ngFor="let comment of t.comments" lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; "> 
+      <div *ngIf="advices">
+          <ion-item *ngFor="let advice of t.advices" lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; "> 
+              <ion-avatar slot="start"  >
+                  <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                </ion-avatar>
+              <ion-col size="10">
+              <p style="font-size: 15px">
+              <span *ngIf="t.advices[t.advices.length-1]">{{advice}} </span>
+               </p>
+              </ion-col >
+               <ion-col size="1" >
+                  <ion-icon name="heart" style="zoom:1.5;color:#F00F87"></ion-icon>
+                  <br>
+                  <ion-badge color="secondary" style="margin-right: 3px;">26</ion-badge>
+              </ion-col>
+             
+            </ion-item>
+  
+            <br>
+            <br>
+            <button (click)="hideadvices()"> Hide</button>
+  
+        </div>
+        <br>
+      </ion-grid>
+
+      <ion-grid *ngSwitchCase="2">
+        <ion-item  lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; " *ngIf="t.comments.length > 0"> 
             <ion-avatar slot="start"  >
                 <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
               </ion-avatar>
             <ion-col size="10">
-            <p style="font-size: 15px">
-            <span *ngIf="t.comments[t.comments.length-1].msg">{{comment.msg}} </span>
+            <p style="font-size: 15px" >
+              
+            <span *ngIf="t.comments[t.comments.length-1]">{{t.comments[t.comments.length-1]}} </span>
+          
              </p>
             </ion-col >
              <ion-col size="1" >
@@ -59,17 +135,39 @@
                 <br>
                 <ion-badge color="secondary" style="margin-right: 3px;">26</ion-badge>
             </ion-col>
+      
+          
            
           </ion-item>
-
           <br>
-          <br>
-          <button (click)="hidecomments()"> Hide</button>
+            <button (click)="showcomments()" *ngIf="hide"> More</button>
+            <br>
+      
+            <div *ngIf="comments">
+                <ion-item *ngFor="let comment of t.comments" lines="none" style="padding: 2px; box-shadow: 9px 8px 28px -5px grey; "> 
+                    <ion-avatar slot="start"  >
+                        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                      </ion-avatar>
+                    <ion-col size="10">
+                    <p style="font-size: 15px">
+                    <span *ngIf="t.comments[t.comments.length-1]">{{comment}} </span>
+                     </p>
+                    </ion-col >
+                     <ion-col size="1" >
+                        <ion-icon name="heart" style="zoom:1.5;color:#F00F87"></ion-icon>
+                        <br>
+                        <ion-badge color="secondary" style="margin-right: 3px;">26</ion-badge>
+                    </ion-col>
+                   
+                  </ion-item>
+        
+                  <br>
+                  <br>
+                  <button (click)="hidecomments()"> Hide</button>
+        
+              </div>
+              <br>
+            </ion-grid>
 
-      </div>
-      <br>
-     
-  </ion-card>
+          </ion-grid>
 
-
-</div>

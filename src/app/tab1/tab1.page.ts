@@ -57,6 +57,9 @@ username: any;
   swiper: any;
   purposeid: any;
   advices: any = [];
+  textadvice: any;
+  jourid: any;
+  idpost: any;
 
 @ViewChild('slides', { static: false }) slides: IonSlides;
   // tslint:disable-next-line: max-line-length
@@ -198,7 +201,35 @@ viewimage(image) {
     share: false
   };
   this.photoViewer.show(image);
-  // this.photoViewer.show(image, 'our title here', option );
+ }
+
+ sendadvice(jrnyid, postid) {
+   console.log(jrnyid, postid);
+   console.log(this.textadvice);
+
+
+   this.afs.doc('userJourneys/' + jrnyid).get().subscribe(( res: any) => {
+  console.log(res);
+  console.log(res.data());
+  let x;
+  const ad_data = res.data();
+  // tslint:disable-next-line: forin
+  for (x in ad_data.multimedia) {
+
+      if (ad_data.multimedia[x].postid === postid) {
+        console.log(ad_data.multimedia[x], postid);
+        ad_data.multimedia[x].advices.push(this.textadvice);
+      }
+    }
+  console.log(ad_data.multimedia);
+  this.afs.doc('userJourneys/' + jrnyid).update(
+    {
+      multimedia: ad_data.multimedia
+    }
+  );
+  this.textadvice = '' ;
+
+   });
  }
 
 }

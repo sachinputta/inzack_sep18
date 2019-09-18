@@ -1,4 +1,50 @@
-<ion-content>     
+<ion-content>    
+   
+
+ 
+    <div *ngIf="data1" class="card" onclick="this.classList.toggle('expanded')" style="background: #1C103C">
+        <!-- <img class='label' src="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg" viewBox="0 0 100 100" height="200" width="200"> -->
+        <!-- <h1 class='label title' viewBox="0 0 100 100" style="color: white" >python development</h1> -->
+        <ion-item style="--background: #1C103C"  lines="none" >
+            <ion-avatar slot="start">
+                <ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"style="zoom:1.8; margin-top: 5px; margin-left: -6px; color: white" [routerLink]="['']"></ion-icon>
+            </ion-avatar>
+           
+            <h3 class='label title'  viewBox="0 0 100 100" style="color: white"  > {{data1.purpose}} </h3>
+          </ion-item>
+        
+        <!-- <h3 class='label title'  viewBox="0 0 100 100" style="color: white"  > <ion-icon  name="arrow-back"style="zoom:1.3;margin-right:3%;  color: white" [routerLink]="['']"></ion-icon>python development python development in progress </h3> -->
+  
+      <div class="text1">
+        <div class="text-content">
+          
+          <div class="body-text" style="color: white"> <h5> Created by {{data1.number}} </h5>on<br>{{data1.timestamp.toDate() | date}}</div>
+        </div>
+      </div>
+      <ion-icon class="chevron" mode='ios' name="arrow-up" style="zoom:2;" viewBox="0 0 100 35"></ion-icon>
+      <!-- <svg class="chevron"  xmlns="https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_960_720.jpg" viewBox="0 0 100 35" width="30"><path d="M5 30L50 5l45 25" fill="none" stroke="#000" stroke-width="5"/></svg> -->
+    </div>
+     
+      <!-- <div *ngIf="data1" class="card"  style="background: #1C103C"  onclick="this.classList.toggle('expanded')">
+        
+       
+        <ion-item style="--background: #1C103C"  lines="none" >
+          <ion-avatar slot="start">
+              <ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"style="zoom:1.8; margin-top: 5px; margin-left: -6px; color: white" [routerLink]="['']"></ion-icon>
+          </ion-avatar>
+         
+          <h3 class='label title'  viewBox="0 0 100 100" style="color: white"  > {{data1.purpose}} </h3>
+     
+       
+      <div class="text1">
+        <div class="text-content">
+          
+          <div class="body-text" style="color: white">  <h5> Created by {{data1.number}} </h5> on<br> {{data1.timestamp.toDate() | date}}</div>
+        </div>
+      </div>
+      <ion-icon class="chevron" mode='ios' name="arrow-up" style="zoom:2;" viewBox="0 0 100 35" ></ion-icon>
+     
+    </div>  -->
       <br>
       <div *ngFor='let img of data' >
           <h5 text-center > {{img}} </h5>
@@ -9,7 +55,7 @@
               <ion-slide *ngFor="let t of date_wise[img]">
                 <ion-card >
                   <ion-card-content>
-                    <img src= "{{ t.src }}" style ="width:100%;height:250px" *ngIf="t.type=='image'" />
+                    <img src= "{{ t.src }}" style ="width:100%;height:250px" *ngIf="t.type=='image'" (click)="viewimage(t.src)" />
                     <video width="auto" height="240" controls *ngIf="t.type=='video'">
                         <source [src]='sanitizer.bypassSecurityTrustResourceUrl(t.src)'  type="video/mp4">
                     </video>
@@ -25,8 +71,8 @@
                   </ion-card-content>
 
                   <ion-item>
-                    <ion-textarea clearOnEdit="true" placeholder= 'comments'></ion-textarea>
-                    <ion-icon ios="ios-send" md="md-send"></ion-icon>
+                    <ion-textarea clearOnEdit="true" placeholder= 'comments' [(ngModel)]="textadvice"></ion-textarea >
+                    <ion-icon ios="ios-send" md="md-send" (click)="sendadvice(t.idjourney,t.postid)"></ion-icon>
                   </ion-item> 
                   
                   
@@ -38,7 +84,7 @@
                     <ion-col size="10">
                     <p style="font-size: 15px" >
                       
-                    <span *ngIf="t.comments[t.comments.length-1].msg">{{t.comments[t.comments.length-1].msg}} </span>
+                    <span *ngIf="t.comments[t.comments.length-1]">{{t.comments[t.comments.length-1]}} </span>
                   
                      </p>
                     </ion-col >
@@ -62,7 +108,7 @@
                             </ion-avatar>
                           <ion-col size="10">
                           <p style="font-size: 15px">
-                          <span *ngIf="t.comments[t.comments.length-1].msg">{{comment.msg}} </span>
+                          <span *ngIf="t.comments[t.comments.length-1]">{{comment}} </span>
                            </p>
                           </ion-col >
                            <ion-col size="1" >

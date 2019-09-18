@@ -86,7 +86,8 @@ username: any;
       } else {
         this.afs.doc('Profile Details/' + this.userInfo.phoneNumber).set({
           name: 'Guest',
-          image: 'null'
+          // tslint:disable-next-line: max-line-length
+          image: 'https://firebasestorage.googleapis.com/v0/b/upload-ec2d4.appspot.com/o/icon.png?alt=media'
         });
       }
       this.update();

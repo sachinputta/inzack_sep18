@@ -18,6 +18,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { Platform, LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { PhotoViewer, PhotoViewerOptions } from '@ionic-native/photo-viewer/ngx';
 
 @Component({
   selector: 'app-viewjourney',
@@ -28,6 +29,7 @@ export class ViewjourneyPage implements OnInit {
   activeRoute: any;
   userDoc: any;
   data: any;
+  data1: any;
   // tslint:disable-next-line: variable-name
   date_wise: {};
   isUserLoggedIn: any = false;
@@ -36,6 +38,7 @@ export class ViewjourneyPage implements OnInit {
   imgsrc: any;
   task: AngularFireUploadTask;
 check: any;
+date: any;
 
   public downloadUrl: Observable<string>;
 
@@ -48,6 +51,9 @@ username: any;
   hide = true;
   journeyid: any;
   purposeid: any;
+  textadvice: any;
+  jourid: any;
+  idpost: any;
 
   slideOptsOne = {
     initialSlide: 0,
@@ -56,7 +62,18 @@ username: any;
    };
 
   // tslint:disable-next-line: max-line-length
-  constructor( private act: ActivatedRoute, private fdb: AngularFireDatabase, public storage: AngularFireStorage, private camera: Camera, private afs: AngularFirestore, private file: File, public sanitizer: DomSanitizer, private http: HttpClient, private nativeHttp: HTTP, private plt: Platform, private loadingCtrl: LoadingController) {
+  constructor(private photoViewer: PhotoViewer,
+              private act: ActivatedRoute,
+              private fdb: AngularFireDatabase,
+              public storage: AngularFireStorage,
+              private camera: Camera,
+              private afs: AngularFirestore,
+              private file: File,
+              public sanitizer: DomSanitizer,
+              private http: HttpClient,
+              private nativeHttp: HTTP,
+              private plt: Platform,
+              private loadingCtrl: LoadingController) {
     this.act.paramMap.subscribe(ParamMap => {
       if (!ParamMap.has('journeyid')) {
 
@@ -76,8 +93,8 @@ username: any;
   }
   sample() {
     this.afs.doc('userJourneys/' + this.journeyid ).get().subscribe((response: any) => {
-      // this.data = response.data();
-      // console.log(this.data);
+      this.data1 = response.data();
+      console.log(this.data1);
 
       console.log(response.exists);
       this.check = response.exists;
@@ -124,5 +141,37 @@ username: any;
   hidecomments() {
     this.comments = false;
     this.hide = !this.hide;
+  }
+
+  viewimage(src) {
+    const option: PhotoViewerOptions = {
+      share: false
+    };
+    this.photoViewer.show(src);
+   }
+
+   sendadvice(jrnyid, postid) {
+    console.log(this.journeyid, postid);
+    console.log(this.textadvice);
+    this.afs.doc('userJourneys/' + this.journeyid).get().subscribe(( res: any) => {
+   console.log(res);
+   console.log(res.data());
+   let x;
+   const ad_data = res.data();
+   // tslint:disable-next-line: forin
+   for (x in ad_data.multimedia) {
+       if (ad_data.multimedia[x].postid === postid) {
+         console.log(ad_data.multimedia[x], postid);
+         ad_data.multimedia[x].comments.push(this.textadvice);
+       }
+     }
+   console.log(ad_data.multimedia);
+   this.afs.doc('userJourneys/' + this.journeyid).update(
+     {
+       multimedia: ad_data.multimedia
+     }
+   );
+   this.textadvice = '' ;
+    });
   }
 }
